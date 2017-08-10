@@ -76,17 +76,20 @@ class HtmlTreeNode(object):
             return self.parent.add(new_header, ids)
 
     def __str__(self):
-        ret = "<a class='toc-href' href='#{0}' title='{1}'>{1}</a>".format(
-                self.id, self.header)
+        ret = ''
+        if self.parent:
+            ret = "<a class='toc-href' href='#{0}' title='{1}'>{1}</a>".format(
+                    self.id, self.header)
 
         if self.children:
             ret += "<ul>{}</ul>".format('{}'*len(self.children)).format(
                     *self.children)
 
-        ret = "<li>{}</li>".format(ret)
+        if self.parent:
+            ret = "<li>{}</li>".format(ret)
 
         if not self.parent:
-            ret = "<div id='toc'><ul>{}</ul></div>".format(ret)
+            ret = "<div id='toc'>{}</div>".format(ret)
 
         return ret
 
